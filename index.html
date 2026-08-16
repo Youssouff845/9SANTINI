@@ -407,24 +407,22 @@
         }
     });
 
-    // دالة التقاط الصورة (مضمونة العمل)
+    // دالة التقاط الصورة بدون خلفية
     function takeScreenshot() {
         const canvasElement = document.getElementById('dashboardCanvas');
         
-        // التأكد من أن المكتبة موجودة
         if (typeof html2canvas === 'undefined') {
             alert('خطأ: مكتبة التصوير لم يتم تحميلها. تأكد من اتصالك بالإنترنت.');
             return;
         }
 
         html2canvas(canvasElement, {
-            scale: 1,               // الحجم الحقيقي 1920x1080
-            useCORS: true,          // السماح بتحميل الصور المحلية
-            backgroundColor: null,  // خلفية شفافة (لون أسود)
-            logging: false,         // إيقاف السجلات
+            scale: 1,
+            useCORS: true,
+            backgroundColor: null,  // ✅ خلفية شفافة (بدون خلفية)
+            logging: false,
             allowTaint: false
         }).then(canvas => {
-            // إنشاء رابط التحميل
             const link = document.createElement('a');
             link.download = 'FFLEG-SLS9-Grand-Finals.png';
             link.href = canvas.toDataURL('image/png');
@@ -433,7 +431,7 @@
             document.body.removeChild(link);
         }).catch(err => {
             console.error('خطأ في التصوير:', err);
-            alert('حدث خطأ. الحل: افتح المتصفح، اضغط على Ctrl+O، واختر ملف index.html لفتحه. هذا سيجعل التصوير يعمل.');
+            alert('حدث خطأ في التصوير. تأكد من فتح الملف عبر Ctrl+O في المتصفح.');
         });
     }
 </script>
