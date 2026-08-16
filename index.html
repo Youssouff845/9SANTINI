@@ -87,7 +87,6 @@
             overflow: hidden;
         }
 
-        /* خلفية التصميم */
         #canvasBackground {
             position: absolute;
             top: 0;
@@ -100,7 +99,6 @@
             display: none;
         }
 
-        /* جميع العناصر تكون فوق الخلفية */
         .header-title, .columns-wrapper, .rounds-history-section {
             position: relative;
             z-index: 1;
@@ -180,8 +178,9 @@
             display: flex;
             width: 100%;
             height: 110px;
-            background-color: rgba(30, 58, 138, 0.9);
-            border: 2px solid #1e3a8a;
+            /* تغيير اللون الأزرق إلى بني */
+            background-color: rgba(101, 67, 33, 0.9); /* بني */
+            border: 2px solid #654321; /* بني غامق */
         }
         .round-box {
             flex: 1;
@@ -231,8 +230,9 @@
         .booyah-history-text {
             font-family: 'Impact', 'Arial Narrow', sans-serif;
             color: #ffffff;
-            font-size: 32px;
-            letter-spacing: 2px;
+            /* تكبير حجم BOOYAH HISTORY */
+            font-size: 40px;
+            letter-spacing: 3px;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -252,7 +252,6 @@
             <input type="file" id="logFileInput" accept=".txt,.log" multiple>
         </div>
         
-        <!-- إضافة رفع الخلفية -->
         <div class="file-upload-wrapper">
             <span>🖼️ رفع خلفية:</span>
             <input type="file" id="bgFileInput" accept=".png,.jpg,.jpeg,.gif,.webp">
@@ -263,7 +262,6 @@
     </div>
 
     <div id="dashboardCanvas">
-        <!-- عنصر الخلفية -->
         <img id="canvasBackground" alt="Background">
         
         <div class="header-title">
@@ -321,7 +319,6 @@
     const DEFAULT_ROUND_LOGO = "./default_round_logo.png";
     let roundWinnersLogos = {};
 
-    // دالة لإضافة الخلفية
     document.getElementById('bgFileInput').addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -335,7 +332,6 @@
         reader.readAsDataURL(file);
     });
 
-    // دالة لإزالة الخلفية
     function removeBackground() {
         const bgElement = document.getElementById('canvasBackground');
         bgElement.style.display = 'none';
@@ -478,7 +474,6 @@
         }
     });
 
-    // دالة التقاط الصورة مع الخلفية
     function takeScreenshot() {
         const canvasElement = document.getElementById('dashboardCanvas');
         
