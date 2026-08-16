@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFLEG-SLS9 GRAND FINALS</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0d1117;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .control-panel {
+            background: #1f2937;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px;
+            width: 90%;
+            max-width: 1400px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #374151;
+            z-index: 10;
+        }
+
+        .file-upload-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #374151;
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+        .file-upload-wrapper input[type="file"] {
+            color: #ffffff;
+            cursor: pointer;
+        }
+        
+        .btn-capture {
+            background: #fbbf24;
+            border: none;
+            color: black;
+            font-weight: bold;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .btn-capture:hover { background: #f59e0b; }
+
+        #dashboardCanvas {
+            width: 1920px;
+            height: 1080px;
+            background-color: #0d1117;
+            position: relative;
+            padding: 40px 60px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform-origin: top left;
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #fbbf24;
+            padding-bottom: 10px;
+        }
+        .header-title h1 {
+            margin: 0;
+            color: #fbbf24;
+            font-size: 40px;
+            letter-spacing: 2px;
+        }
+
+        .columns-wrapper {
+            display: flex;
+            gap: 30px;
+            flex: 1;
+            width: 100%;
+        }
+        
+        .col-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .table-header {
+            display: flex;
+            width: 100%;
+            padding: 10px 10px;
+            border-bottom: 2px solid #fbbf24;
+            color: #9ca3af;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .team-row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background: rgba(20, 30, 40, 0.8);
+            border-radius: 10px;
+            padding: 8px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(4px);
+            height: 50px;
+        }
+        .team-row:hover { border-color: #fbbf24; }
+
+        .col-rank { width: 35px; color: #fbbf24; font-size: 16px; font-weight: bold; text-align: left; padding-left: 5px; }
+        .col-team { flex: 1.8; display: flex; align-items: center; gap: 10px; padding-left: 5px; }
+        .col-team .team-logo { width: 28px; height: 28px; object-fit: contain; border-radius: 50%; background: #000; border: 2px solid #fbbf24; }
+        .col-team .team-name { font-weight: bold; font-size: 16px; letter-spacing: 1px; }
+        
+        .col-stat { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #ffffff; }
+        .col-total { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #fbbf24; }
+        .col-booyah { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #fbbf24; }
+
+        .rounds-history-section {
+            margin-top: 20px;
+            border-top: 2px solid #fbbf24;
+            padding-top: 20px;
+            width: 100%;
+        }
+        .rounds-grid {
+            display: flex;
+            width: 100%;
+            height: 110px;
+            background-color: #1e3a8a;
+            border: 2px solid #1e3a8a;
+        }
+        .round-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 2px solid #ffffff;
+            position: relative;
+            padding: 10px;
+            background-color: transparent;
+        }
+        .round-box:last-child { border-right: none; }
+
+        .round-label {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .round-logo-container {
+            margin-top: 5px;
+            width: 60px;
+            height: 60px;
+            background-color: #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fbbf24;
+        }
+        .round-logo-container img {
+            width: 85%;
+            height: 85%;
+            object-fit: contain;
+        }
+
+        .booyah-history-box {
+            flex: 1.5;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            background-color: transparent;
+            border-left: 2px solid #ffffff;
+            padding-top: 15px;
+        }
+        .booyah-history-text {
+            font-family: 'Impact', 'Arial Narrow', sans-serif;
+            color: #ffffff;
+            font-size: 32px;
+            letter-spacing: 2px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1;
+        }
+        .booyah-history-text span:first-child {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="control-panel">
+        <div class="file-upload-wrapper">
+            <span>📂 رفع ملف Log (اختر جميع الجولات):</span>
+            <input type="file" id="logFileInput" accept=".txt,.log" multiple>
+        </div>
+        <button class="btn-capture" onclick="takeScreenshot()">📸 تنزيل الصورة (1920x1080)</button>
+    </div>
+
+    <div id="dashboardCanvas">
+        <div class="header-title">
+            <h1>FFLEG-SLS9- GRAND FINALS - CHAMPION RUSH</h1>
+        </div>
+
+        <div class="columns-wrapper">
+            <div class="col-side">
+                <div class="table-header">
+                    <div class="col-rank">#</div>
+                    <div class="col-team">TEAM NAME</div>
+                    <div class="col-stat">ELIMS</div>
+                    <div class="col-stat">TOP</div>
+                    <div class="col-total">TOTAL</div>
+                    <div class="col-booyah">BOOYAH</div>
+                </div>
+                <div id="leftRows"></div>
+            </div>
+            <div class="col-side">
+                <div class="table-header">
+                    <div class="col-rank">#</div>
+                    <div class="col-team">TEAM NAME</div>
+                    <div class="col-stat">ELIMS</div>
+                    <div class="col-stat">TOP</div>
+                    <div class="col-total">TOTAL</div>
+                    <div class="col-booyah">BOOYAH</div>
+                </div>
+                <div id="rightRows"></div>
+            </div>
+        </div>
+
+        <div class="rounds-history-section">
+            <div class="rounds-grid" id="roundsGrid"></div>
+        </div>
+
+    </div>
+
+<script>
+    const teams = [
+      { id: 1, name: "WASK", fullNames: ["WASK", "WASK TEAM"], logo: "./logos/wask.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 2, name: "XP", fullNames: ["XP", "XPROJEKT"], logo: "./logos/xp.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 3, name: "AHL", fullNames: ["AHL", "AHLI"], logo: "./logos/ahl.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 4, name: "AL", fullNames: ["AL", "ALLIANCE"], logo: "./logos/al.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 5, name: "B2R", fullNames: ["B2R", "BACK2REVENGE"], logo: "./logos/b2r.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 6, name: "CLVS", fullNames: ["CLVS", "CLEAR VISION"], logo: "./logos/clvs.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 7, name: "GG", fullNames: ["GG"], logo: "./logos/gg.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 8, name: "HELL", fullNames: ["HELL"], logo: "./logos/hell.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 9, name: "HNT", fullNames: ["HNT", "HUNTERS"], logo: "./logos/hnt.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 10, name: "JOKO", fullNames: ["JOKO", "JOKO FORCE"], logo: "./logos/joko.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 11, name: "MALOS", fullNames: ["MALOS"], logo: "./logos/malos.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 12, name: "NEXE", fullNames: ["NEXE"], logo: "./logos/nexe.png", elims: 0, top: 0, total: 0, booyah: 0 },
+      { id: 13, name: "VLCN", fullNames: ["VLCN", "VOLCANOS"], logo: "./logos/vlcn.png", elims: 0, top: 0, total: 0, booyah: 0 }
+    ];
+
+    const DEFAULT_ROUND_LOGO = "./default_round_logo.png";
+    let roundWinnersLogos = {};
+
+    function buildTables() {
+        const leftRows = document.getElementById('leftRows');
+        const rightRows = document.getElementById('rightRows');
+        leftRows.innerHTML = '';
+        rightRows.innerHTML = '';
+
+        const sortedTeams = [...teams].sort((a, b) => b.total - a.total);
+        const leftTeams = sortedTeams.slice(0, 7);
+        const rightTeams = sortedTeams.slice(7, 13);
+
+        function createRow(team, rank) {
+            const row = document.createElement('div');
+            row.className = 'team-row';
+            row.innerHTML = `
+                <div class="col-rank">#${rank}</div>
+                <div class="col-team">
+                    <img src="${team.logo}" alt="${team.name}" class="team-logo" onerror="this.remove()">
+                    <span class="team-name">${team.name}</span>
+                </div>
+                <div class="col-stat">${team.elims}</div>
+                <div class="col-stat">${team.top}</div>
+                <div class="col-total">${team.total}</div>
+                <div class="col-booyah">${team.booyah}</div>
+            `;
+            return row;
+        }
+
+        leftTeams.forEach((team, index) => leftRows.appendChild(createRow(team, index + 1)));
+        rightTeams.forEach((team, index) => rightRows.appendChild(createRow(team, index + 8)));
+    }
+
+    function buildRounds() {
+        const grid = document.getElementById('roundsGrid');
+        grid.innerHTML = '';
+        for (let i = 1; i <= 8; i++) {
+            const box = document.createElement('div');
+            box.className = 'round-box';
+            const logo = roundWinnersLogos[i] || DEFAULT_ROUND_LOGO;
+            box.innerHTML = `
+                <div class="round-label">الجولة ${i}</div>
+                <div class="round-logo-container">
+                    <img src="${logo}" alt="Round ${i} Winner" onerror="this.src='${DEFAULT_ROUND_LOGO}'">
+                </div>
+            `;
+            grid.appendChild(box);
+        }
+        const historyBox = document.createElement('div');
+        historyBox.className = 'booyah-history-box';
+        historyBox.innerHTML = `
+            <div class="booyah-history-text">
+                <span>BOOYAH</span>
+                <span>HISTORY</span>
+            </div>
+        `;
+        grid.appendChild(historyBox);
+    }
+
+    buildTables();
+    buildRounds();
+
+    document.getElementById('logFileInput').addEventListener('change', function(event) {
+        const files = event.target.files;
+        if (!files || files.length === 0) return;
+        teams.forEach(t => { t.elims = 0; t.top = 0; t.total = 0; t.booyah = 0; });
+        roundWinnersLogos = {};
+        let processedFiles = 0;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileName = file.name.toLowerCase();
+            let roundNumber = 0;
+            const match = fileName.match(/room(\d+)/);
+            if (match) roundNumber = parseInt(match[1]);
+            if (roundNumber < 1) continue;
+
+            const reader = new FileReader();
+            reader.onload = (function(roundNum) {
+                return function(e) {
+                    const contents = e.target.result;
+                    const lines = contents.split('\n');
+                    let winnerTeam = null;
+
+                    lines.forEach(line => {
+                        const cleanLine = line.trim();
+                        if (cleanLine.startsWith("TeamName:")) {
+                            const teamMatch = cleanLine.match(/TeamName:\s*(\w+)/i);
+                            const rankMatch = cleanLine.match(/Rank:\s*(\d+)/i);
+                            const killMatch = cleanLine.match(/KillScore:\s*(\d+)/i);
+                            const totalMatch = cleanLine.match(/TotalScore:\s*(\d+)/i);
+                            if (teamMatch && rankMatch && killMatch && totalMatch) {
+                                const extractedName = teamMatch[1].toUpperCase();
+                                const rank = parseInt(rankMatch[1]);
+                                const elims = parseInt(killMatch[1]);
+                                const total = parseInt(totalMatch[1]);
+                                let topScore = 0;
+                                if (rank === 1) topScore = 12;
+                                else if (rank === 2) topScore = 9;
+                                else if (rank === 3) topScore = 8;
+                                else if (rank === 4) topScore = 7;
+                                else if (rank === 5) topScore = 6;
+                                else if (rank === 6) topScore = 5;
+                                else if (rank === 7) topScore = 4;
+                                else if (rank === 8) topScore = 3;
+                                else if (rank === 9) topScore = 2;
+                                else if (rank === 10) topScore = 1;
+                                let matchedTeam = null;
+                                for (let t of teams) {
+                                    if (t.name === extractedName || t.fullNames.includes(extractedName)) {
+                                        matchedTeam = t; break;
+                                    }
+                                }
+                                if (matchedTeam) {
+                                    matchedTeam.elims += elims;
+                                    matchedTeam.top += topScore;
+                                    matchedTeam.total += total;
+                                    if (rank === 1) {
+                                        matchedTeam.booyah += 1;
+                                        winnerTeam = matchedTeam;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    if (winnerTeam && roundNum >= 1 && roundNum <= 8) roundWinnersLogos[roundNum] = winnerTeam.logo;
+                    processedFiles++;
+                    if (processedFiles === files.length) {
+                        buildTables();
+                        buildRounds();
+                    }
+                };
+            })(roundNumber);
+            reader.readAsText(file);
+        }
+    });
+
+    // دالة التقاط الصورة (مضمونة العمل)
+    function takeScreenshot() {
+        const canvasElement = document.getElementById('dashboardCanvas');
+        
+        // التأكد من أن المكتبة موجودة
+        if (typeof html2canvas === 'undefined') {
+            alert('خطأ: مكتبة التصوير لم يتم تحميلها. تأكد من اتصالك بالإنترنت.');
+            return;
+        }
+
+        html2canvas(canvasElement, {
+            scale: 1,               // الحجم الحقيقي 1920x1080
+            useCORS: true,          // السماح بتحميل الصور المحلية
+            backgroundColor: null,  // خلفية شفافة (لون أسود)
+            logging: false,         // إيقاف السجلات
+            allowTaint: false
+        }).then(canvas => {
+            // إنشاء رابط التحميل
+            const link = document.createElement('a');
+            link.download = 'FFLEG-SLS9-Grand-Finals.png';
+            link.href = canvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }).catch(err => {
+            console.error('خطأ في التصوير:', err);
+            alert('حدث خطأ. الحل: افتح المتصفح، اضغط على Ctrl+O، واختر ملف index.html لفتحه. هذا سيجعل التصوير يعمل.');
+        });
+    }
+</script>
+
+</body>
+</html>
