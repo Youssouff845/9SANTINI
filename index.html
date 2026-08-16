@@ -60,6 +60,19 @@
         }
         .btn-capture:hover { background: #f59e0b; }
 
+        .btn-remove-bg {
+            background: #ef4444;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .btn-remove-bg:hover { background: #dc2626; }
+
         #dashboardCanvas {
             width: 1920px;
             height: 1080px;
@@ -71,6 +84,26 @@
             flex-direction: column;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             transform-origin: top left;
+            overflow: hidden;
+        }
+
+        /* خلفية التصميم */
+        #canvasBackground {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.8;
+            display: none;
+        }
+
+        /* جميع العناصر تكون فوق الخلفية */
+        .header-title, .columns-wrapper, .rounds-history-section {
+            position: relative;
+            z-index: 1;
         }
 
         .header-title {
@@ -84,6 +117,7 @@
             color: #fbbf24;
             font-size: 40px;
             letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
         .columns-wrapper {
@@ -110,6 +144,8 @@
             font-size: 14px;
             letter-spacing: 1px;
             text-align: center;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px 10px 0 0;
         }
 
         .team-row {
@@ -128,11 +164,11 @@
         .col-rank { width: 35px; color: #fbbf24; font-size: 16px; font-weight: bold; text-align: left; padding-left: 5px; }
         .col-team { flex: 1.8; display: flex; align-items: center; gap: 10px; padding-left: 5px; }
         .col-team .team-logo { width: 28px; height: 28px; object-fit: contain; border-radius: 50%; background: #000; border: 2px solid #fbbf24; }
-        .col-team .team-name { font-weight: bold; font-size: 16px; letter-spacing: 1px; }
+        .col-team .team-name { font-weight: bold; font-size: 16px; letter-spacing: 1px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
         
-        .col-stat { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #ffffff; }
-        .col-total { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #fbbf24; }
-        .col-booyah { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #fbbf24; }
+        .col-stat { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        .col-total { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #fbbf24; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        .col-booyah { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #fbbf24; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
 
         .rounds-history-section {
             margin-top: 20px;
@@ -144,7 +180,7 @@
             display: flex;
             width: 100%;
             height: 110px;
-            background-color: #1e3a8a;
+            background-color: rgba(30, 58, 138, 0.9);
             border: 2px solid #1e3a8a;
         }
         .round-box {
@@ -156,7 +192,7 @@
             border-right: 2px solid #ffffff;
             position: relative;
             padding: 10px;
-            background-color: transparent;
+            background-color: rgba(0,0,0,0.3);
         }
         .round-box:last-child { border-right: none; }
 
@@ -164,6 +200,7 @@
             color: #ffffff;
             font-size: 18px;
             font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
         .round-logo-container {
             margin-top: 5px;
@@ -187,7 +224,7 @@
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            background-color: transparent;
+            background-color: rgba(0,0,0,0.3);
             border-left: 2px solid #ffffff;
             padding-top: 15px;
         }
@@ -200,6 +237,7 @@
             flex-direction: column;
             align-items: flex-start;
             line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
         .booyah-history-text span:first-child {
             color: #fbbf24;
@@ -213,10 +251,21 @@
             <span>📂 رفع ملف Log (اختر جميع الجولات):</span>
             <input type="file" id="logFileInput" accept=".txt,.log" multiple>
         </div>
+        
+        <!-- إضافة رفع الخلفية -->
+        <div class="file-upload-wrapper">
+            <span>🖼️ رفع خلفية:</span>
+            <input type="file" id="bgFileInput" accept=".png,.jpg,.jpeg,.gif,.webp">
+        </div>
+        
+        <button class="btn-remove-bg" onclick="removeBackground()">🗑️ إزالة الخلفية</button>
         <button class="btn-capture" onclick="takeScreenshot()">📸 تنزيل الصورة (1920x1080)</button>
     </div>
 
     <div id="dashboardCanvas">
+        <!-- عنصر الخلفية -->
+        <img id="canvasBackground" alt="Background">
+        
         <div class="header-title">
             <h1>FFLEG-SLS9- GRAND FINALS - CHAMPION RUSH</h1>
         </div>
@@ -271,6 +320,28 @@
 
     const DEFAULT_ROUND_LOGO = "./default_round_logo.png";
     let roundWinnersLogos = {};
+
+    // دالة لإضافة الخلفية
+    document.getElementById('bgFileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const bgElement = document.getElementById('canvasBackground');
+            bgElement.src = e.target.result;
+            bgElement.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // دالة لإزالة الخلفية
+    function removeBackground() {
+        const bgElement = document.getElementById('canvasBackground');
+        bgElement.style.display = 'none';
+        bgElement.src = '';
+        document.getElementById('bgFileInput').value = '';
+    }
 
     function buildTables() {
         const leftRows = document.getElementById('leftRows');
@@ -407,7 +478,7 @@
         }
     });
 
-    // دالة التقاط الصورة بدون خلفية
+    // دالة التقاط الصورة مع الخلفية
     function takeScreenshot() {
         const canvasElement = document.getElementById('dashboardCanvas');
         
@@ -419,7 +490,7 @@
         html2canvas(canvasElement, {
             scale: 1,
             useCORS: true,
-            backgroundColor: null,  // ✅ خلفية شفافة (بدون خلفية)
+            backgroundColor: null,
             logging: false,
             allowTaint: false
         }).then(canvas => {
