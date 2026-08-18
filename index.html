@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FFLEG-SLS9 GRAND FINALS</title>
+    <title>FFLEG-SLS9 GRAND FINALS · موسع</title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         body {
@@ -113,8 +113,8 @@
         .header-title h1 {
             margin: 0;
             color: #fbbf24;
-            font-size: 40px;
-            letter-spacing: 2px;
+            font-size: 44px;          /* تكبير العنوان */
+            letter-spacing: 3px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
@@ -135,41 +135,90 @@
         .table-header {
             display: flex;
             width: 100%;
-            padding: 10px 10px;
+            padding: 12px 10px;
             border-bottom: 2px solid #fbbf24;
-            color: #9ca3af;
+            color: #fbbf24;
             font-weight: bold;
-            font-size: 14px;
-            letter-spacing: 1px;
+            font-size: 16px;           /* تكبير رأس الجدول */
+            letter-spacing: 1.5px;
             text-align: center;
-            background: rgba(0,0,0,0.5);
-            border-radius: 10px 10px 0 0;
+            background: rgba(0,0,0,0.6);
+            border-radius: 12px 12px 0 0;
+            text-shadow: 1px 1px 2px #000;
         }
 
         .team-row {
             display: flex;
             align-items: center;
             width: 100%;
-            background: rgba(20, 30, 40, 0.8);
-            border-radius: 10px;
-            padding: 8px 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(20, 30, 40, 0.85);
+            border-radius: 12px;
+            padding: 10px 12px;        /* زيادة الحشو الداخلي */
+            border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(4px);
-            height: 50px;
+            height: 58px;              /* زيادة ارتفاع الصف */
         }
         .team-row:hover { border-color: #fbbf24; }
 
-        .col-rank { width: 35px; color: #fbbf24; font-size: 16px; font-weight: bold; text-align: left; padding-left: 5px; }
-        .col-team { flex: 1.8; display: flex; align-items: center; gap: 10px; padding-left: 5px; }
-        .col-team .team-logo { width: 28px; height: 28px; object-fit: contain; border-radius: 50%; background: #000; border: 2px solid #fbbf24; }
-        .col-team .team-name { font-weight: bold; font-size: 16px; letter-spacing: 1px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        .col-rank { 
+            width: 45px; 
+            color: #fbbf24; 
+            font-size: 20px;           /* تكبير الرقم */
+            font-weight: bold; 
+            text-align: left; 
+            padding-left: 5px; 
+        }
+        .col-team { 
+            flex: 2; 
+            display: flex; 
+            align-items: center; 
+            gap: 14px;                /* مسافة أكبر بين اللوجو والاسم */
+            padding-left: 8px; 
+        }
+        .col-team .team-logo { 
+            width: 42px;               /* تكبير اللوجو */
+            height: 42px; 
+            object-fit: contain; 
+            border-radius: 50%; 
+            background: #0a0a0a; 
+            border: 2px solid #fbbf24;
+            padding: 2px;
+        }
+        .col-team .team-name { 
+            font-weight: bold; 
+            font-size: 20px;           /* تكبير اسم الفريق */
+            letter-spacing: 1px; 
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+        }
         
-        .col-stat { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-        .col-total { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #fbbf24; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-        .col-booyah { width: 70px; text-align: center; font-size: 16px; font-weight: bold; color: #fbbf24; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        .col-stat { 
+            width: 80px;               /* زيادة العرض */
+            text-align: center; 
+            font-size: 20px;           /* تكبير الأرقام */
+            font-weight: bold; 
+            color: #ffffff; 
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+        .col-total { 
+            width: 80px; 
+            text-align: center; 
+            font-size: 22px;           /* تكبير TOTAL */
+            font-weight: bold; 
+            color: #fbbf24; 
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+        .col-booyah { 
+            width: 80px; 
+            text-align: center; 
+            font-size: 22px;           /* تكبير BOOYAH */
+            font-weight: bold; 
+            color: #fbbf24; 
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
 
+        /* قسم الجولات - BOOYAH HISTORY */
         .rounds-history-section {
-            margin-top: 20px;
+            margin-top: 24px;
             border-top: 2px solid #fbbf24;
             padding-top: 20px;
             width: 100%;
@@ -177,10 +226,9 @@
         .rounds-grid {
             display: flex;
             width: 100%;
-            height: 110px;
-            /* تغيير اللون الأزرق إلى بني */
-            background-color: rgba(101, 67, 33, 0.9); /* بني */
-            border: 2px solid #654321; /* بني غامق */
+            height: 125px;             /* زيادة الارتفاع قليلاً */
+            background-color: rgba(101, 67, 33, 0.9);
+            border: 2px solid #654321;
         }
         .round-box {
             flex: 1;
@@ -190,21 +238,21 @@
             justify-content: center;
             border-right: 2px solid #ffffff;
             position: relative;
-            padding: 10px;
+            padding: 8px 6px;
             background-color: rgba(0,0,0,0.3);
         }
         .round-box:last-child { border-right: none; }
 
         .round-label {
             color: #ffffff;
-            font-size: 18px;
+            font-size: 19px;           /* تكبير رقم الجولة */
             font-weight: bold;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            margin-bottom: 4px;
         }
         .round-logo-container {
-            margin-top: 5px;
-            width: 60px;
-            height: 60px;
+            width: 68px;               /* تكبير حاوية اللوجو */
+            height: 68px;
             background-color: #000000;
             border-radius: 50%;
             display: flex;
@@ -221,22 +269,21 @@
         .booyah-history-box {
             flex: 1.5;
             display: flex;
-            align-items: flex-start;
+            align-items: center;        /* توسيط عمودي */
             justify-content: center;
             background-color: rgba(0,0,0,0.3);
             border-left: 2px solid #ffffff;
-            padding-top: 15px;
+            padding: 0 10px;
         }
         .booyah-history-text {
             font-family: 'Impact', 'Arial Narrow', sans-serif;
             color: #ffffff;
-            /* تكبير حجم BOOYAH HISTORY */
-            font-size: 40px;
-            letter-spacing: 3px;
+            font-size: 48px;           /* تكبير BOOYAH HISTORY */
+            letter-spacing: 4px;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            line-height: 1;
+            line-height: 1.1;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
         .booyah-history-text span:first-child {
