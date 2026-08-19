@@ -96,7 +96,7 @@
             object-fit: cover;
             z-index: 0;
             opacity: 0.8;
-            display: none;
+            display: block; /* تغيير من none إلى block */
         }
 
         .header-title, .columns-wrapper, .rounds-history-section {
@@ -113,7 +113,7 @@
         .header-title h1 {
             margin: 0;
             color: #fbbf24;
-            font-size: 44px;          /* تكبير العنوان */
+            font-size: 44px;
             letter-spacing: 3px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
@@ -139,7 +139,7 @@
             border-bottom: 2px solid #fbbf24;
             color: #fbbf24;
             font-weight: bold;
-            font-size: 16px;           /* تكبير رأس الجدول */
+            font-size: 16px;
             letter-spacing: 1.5px;
             text-align: center;
             background: rgba(0,0,0,0.6);
@@ -153,17 +153,17 @@
             width: 100%;
             background: rgba(20, 30, 40, 0.85);
             border-radius: 12px;
-            padding: 10px 12px;        /* زيادة الحشو الداخلي */
+            padding: 10px 12px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(4px);
-            height: 58px;              /* زيادة ارتفاع الصف */
+            height: 58px;
         }
         .team-row:hover { border-color: #fbbf24; }
 
         .col-rank { 
             width: 45px; 
             color: #fbbf24; 
-            font-size: 20px;           /* تكبير الرقم */
+            font-size: 20px;
             font-weight: bold; 
             text-align: left; 
             padding-left: 5px; 
@@ -172,11 +172,11 @@
             flex: 2; 
             display: flex; 
             align-items: center; 
-            gap: 14px;                /* مسافة أكبر بين اللوجو والاسم */
+            gap: 14px;
             padding-left: 8px; 
         }
         .col-team .team-logo { 
-            width: 42px;               /* تكبير اللوجو */
+            width: 42px;
             height: 42px; 
             object-fit: contain; 
             border-radius: 50%; 
@@ -186,15 +186,15 @@
         }
         .col-team .team-name { 
             font-weight: bold; 
-            font-size: 20px;           /* تكبير اسم الفريق */
+            font-size: 20px;
             letter-spacing: 1px; 
             text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
         }
         
         .col-stat { 
-            width: 80px;               /* زيادة العرض */
+            width: 80px;
             text-align: center; 
-            font-size: 20px;           /* تكبير الأرقام */
+            font-size: 20px;
             font-weight: bold; 
             color: #ffffff; 
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
@@ -202,7 +202,7 @@
         .col-total { 
             width: 80px; 
             text-align: center; 
-            font-size: 22px;           /* تكبير TOTAL */
+            font-size: 22px;
             font-weight: bold; 
             color: #fbbf24; 
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
@@ -210,13 +210,12 @@
         .col-booyah { 
             width: 80px; 
             text-align: center; 
-            font-size: 22px;           /* تكبير BOOYAH */
+            font-size: 22px;
             font-weight: bold; 
             color: #fbbf24; 
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
-        /* قسم الجولات - BOOYAH HISTORY */
         .rounds-history-section {
             margin-top: 24px;
             border-top: 2px solid #fbbf24;
@@ -226,7 +225,7 @@
         .rounds-grid {
             display: flex;
             width: 100%;
-            height: 125px;             /* زيادة الارتفاع قليلاً */
+            height: 125px;
             background-color: rgba(101, 67, 33, 0.9);
             border: 2px solid #654321;
         }
@@ -245,13 +244,13 @@
 
         .round-label {
             color: #ffffff;
-            font-size: 19px;           /* تكبير رقم الجولة */
+            font-size: 19px;
             font-weight: bold;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
             margin-bottom: 4px;
         }
         .round-logo-container {
-            width: 68px;               /* تكبير حاوية اللوجو */
+            width: 68px;
             height: 68px;
             background-color: #000000;
             border-radius: 50%;
@@ -269,7 +268,7 @@
         .booyah-history-box {
             flex: 1.5;
             display: flex;
-            align-items: center;        /* توسيط عمودي */
+            align-items: center;
             justify-content: center;
             background-color: rgba(0,0,0,0.3);
             border-left: 2px solid #ffffff;
@@ -278,7 +277,7 @@
         .booyah-history-text {
             font-family: 'Impact', 'Arial Narrow', sans-serif;
             color: #ffffff;
-            font-size: 48px;           /* تكبير BOOYAH HISTORY */
+            font-size: 48px;
             letter-spacing: 4px;
             display: flex;
             flex-direction: column;
@@ -309,7 +308,8 @@
     </div>
 
     <div id="dashboardCanvas">
-        <img id="canvasBackground" alt="Background">
+        <!-- الخلفية تظهر دائماً بشكل افتراضي -->
+        <img id="canvasBackground" src="background.jpg" alt="Background">
         
         <div class="header-title">
             <h1>FFLEG-SLS9- GRAND FINALS - CHAMPION RUSH</h1>
